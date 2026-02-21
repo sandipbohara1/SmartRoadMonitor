@@ -1,0 +1,270 @@
+<!-- ============================================================
+     FILE: index.html
+     PROJECT: Smart Road Monitor (Frontend Shell)
+     PROGRAMMER: Sandip Bohara Chhetri
+
+     PURPOSE:
+     This is the main single-page shell for the frontend UI.
+     It contains:
+       - Navigation bar (Dashboard / Map / Admin)
+       - Three page sections (shown/hidden dynamically)
+       - Script/style router that loads the right JS + CSS per page
+       - External libraries: jQuery, Chart.js, Chart Zoom plugin
+       - Google Maps API loader (Places library)
+       - Wather API
+
+============================================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Responsive scaling for desktop + mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Road Monitor</title>
+
+  <!-- =========================================================
+       CSS
+       ---------------------------------------------------------
+       global.css = shared layout/navbar/base styles
+       pageStyle  = swapped dynamically based on selected page
+  ========================================================== -->
+  <link rel="stylesheet" href="css/global.css" />
+  <link id="pageStyle" rel="stylesheet" href="css/dashboard.css" />
+
+  <!-- =========================================================
+       JS Libraries
+       ---------------------------------------------------------
+       jQuery     = DOM + AJAX convenience
+       Chart.js   = trend charts for dashboard
+       Zoom plugin= pan/zoom gestures for charts
+  ========================================================== -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       NAVIGATION BAR
+       ---------------------------------------------------------
+       Each link contains data-page="dashboard|map|admin".
+       Router script reads this value to:
+         - show correct section
+         - load correct CSS
+         - load correct JS
+  ========================================================== -->
+  <nav class="navbar">
+    <div class="logo">Smart Road Monitor</div>
+    <div class="nav-links">
+      <a href="#" class="nav-link active" data-page="dashboard">Dashboard</a>
+      <a href="#" class="nav-link" data-page="map">Map</a>
+      <a href="#" class="nav-link" data-page="admin">Admin</a>
+    </div>
+  </nav>
+
+  <!-- ===========================
+       DASHBOARD SECTION
+       - Shows live conditions
+       - Shows trends via Chart.js
+       - Alerts log
+       - Weather-based snow forecast bars
+  ============================= -->
+  <section id="dashboardSection" class="page-section">
+
+    <!-- FILTER BAR
+         One shared filter UI for dashboard:
+           - Location dropdown is populated from /devices/all
+           - Duration controls how far back trend charts show data
+    -->
+    <div class="card dashboard-filter-card">
+      <div class="filter-box">
+        <label for="commonLocation">Location:</label>
+        <select id="commonLocation"></select>
+
+        <label for="commonDuration">Duration:</label>
+        <select id="commonDuration">
+          <option value="24">24 hrs</option>
+          <option value="72">3 Days</option>
+          <option value="168">7 Days</option>
+          <option value="336">14 Days</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Main dashboard layout grid -->
+    <div class="grid-container">
+
+      <!-- CURRENT CONDITIONS CARD
+           Populated from latest sensor reading for the selected location
+      -->
+      <div class="card">
+        <h2>Current Conditions</h2>
+
+        <!-- Risk label changes CSS class (low/medium/high) -->
+        <p id="riskLevel" class="low">Risk: --</p>
+        <p>Condition Level: <span id="slipIndex">--</span></p>
+        <p>Air Temp: <span id="airTemp">--</span> °C</p>
+        <p>Humidity: <span id="humidity">--</span> %</p>
+        <p>Surface Temp: <span id="surfaceTemp">--</span> °C</p>
+        <p>Surface Type: <span id="surfaceType">--</span></p>
+
+        <!-- SNOW PREDICTION
+             Bars are generated in dashboard.js from WeatherAPI forecast data
+        -->
+        <div id="snowPredictionContainer" class="weather-section">
+          <h3>Snow Prediction (7 Days)</h3>
+
+          <!-- Populated with rows: Day + bar + % -->
+          <div id="snowForecast" class="snow-forecast-bars"></div>
+
+        </div>
+      </div>
+
+      <!-- TREND ANALYSIS CARD
+           Three charts:
+             - Surface temperature 
+             - Air temperature     
+             - Humidity            
+      -->
+      <div class="card">
+        <h2>Trend Analysis</h2>
+        <canvas id="slipTrend"></canvas>
+        <canvas id="tempTrend"></canvas>
+        <canvas id="humidTrend"></canvas>
+      </div>
+
+      <!-- ALERTS CARD
+           Displays last ~10 events for selected location
+           based on newest sensor readings.
+      -->
+      <div class="card">
+        <h2>Alerts Log</h2>
+        <table class="alert-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Location</th>
+              <th>Surface</th>
+            </tr>
+          </thead>
+          <tbody id="alertTable"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===========================
+       MAP SECTION
+       - Google Maps view
+       - Route selection
+       - Hazard markers from devices
+       - Safe/unsafe route detection
+  ============================= -->
+  <section id="mapSection" class="page-section hidden">
+    <div class="card" style="max-width: 1200px;">
+      <h2>Map View — Safest Route Finder</h2>
+
+      <!-- Directions controls:
+           - start-input can default to current location
+           - end-input is destination
+           - buttons trigger routing and exit/reset
+      -->
+      <div class="directions-controls">
+        <input id="start-input" type="text" placeholder="From (Current Location)" />
+        <input id="end-input" type="text" placeholder="To" />
+        <div class="button-row">
+          <button id="get-directions-btn">Get Directions</button>
+          <button id="exit-btn" style="background:#c62828;color:white;">Exit</button>
+        </div>
+      </div>
+
+      <!-- Google map renders inside this container -->
+      <div id="map" class="map-container"></div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       ADMIN SECTION
+       - Initial login UI
+       - On success, JS replaces this with admin panel
+  ============================= -->
+  <section id="adminSection" class="page-section hidden">
+    <div class="card">
+      <h2>Admin Login</h2>
+      <input type="text" id="adminUser" placeholder="Username" />
+      <input type="password" id="adminPass" placeholder="Password" />
+      <button id="loginBtn">Login</button>
+      <p id="loginMsg"></p>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ROUTER SCRIPT
+       ---------------------------------------------------------
+       Loads the correct JS/CSS when user clicks nav links.
+       Behavior:
+         - On page load: loads dashboard.js by default
+         - On nav click:
+             1) activate selected link
+             2) hide all sections
+             3) show the selected section
+             4) swap the page CSS file
+             5) load the page JS file dynamically
+  ========================================================== -->
+  <script>
+    const scripts = {
+      dashboard: "js/dashboard.js",
+      map: "js/map.js",
+      admin: "js/admin.js"
+    };
+
+    const styles = {
+      dashboard: "css/dashboard.css",
+      map: "css/map.css",
+      admin: "css/admin.css"
+    };
+
+    $(document).ready(function () {
+      // Load dashboard behavior by default
+      $.getScript(scripts.dashboard);
+
+      // Navigation click handler
+      $(".nav-link").click(function (e) {
+        e.preventDefault();
+
+        // Update active link styling
+        $(".nav-link").removeClass("active");
+        $(this).addClass("active");
+
+        // Hide all pages
+        $(".page-section").addClass("hidden");
+
+        // Determine which page to show
+        const page = $(this).data("page");
+
+        // Show chosen page section
+        $(`#${page}Section`).removeClass("hidden");
+
+        // Swap stylesheet to match the page
+        $("#pageStyle").attr("href", styles[page]);
+
+        // Load the JS file for that page
+        $.getScript(scripts[page]);
+      });
+    });
+  </script>
+
+  <!-- =========================================================
+       GOOGLE MAPS SCRIPT
+       ---------------------------------------------------------
+       Loads Maps JS + Places library.
+       map.js also loads geometry dynamically when needed.
+  ========================================================== -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=[Google_MapsAPI_Expired and new key needed to be migrated in backend]&libraries=places">
+  </script>
+
+</body>
+</html>

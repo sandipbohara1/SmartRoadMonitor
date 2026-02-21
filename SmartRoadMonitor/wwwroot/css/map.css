@@ -1,0 +1,118 @@
+/* ============================================================
+   FILE: css/map.css
+   PROJECT: Smart Road Monitor (Map View Styles)
+   PROGRAMMER: Sandip Bohara Chhetri
+
+   PURPOSE:
+   Styles for the Map page:
+     - Card container sizing
+     - Google map container dimensions
+     - Directions input controls layout
+     - Button row layout
+     - Optional “route badge” style
+     - Optional analysis panel styling
+
+============================================================ */
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f5f8fb;
+  margin: 0;
+  padding: 0;
+}
+
+.page-section {
+  padding: 20px 40px;
+}
+
+/* Card used to contain map + controls */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 30px auto;
+  max-width: 1200px;
+}
+
+.card h2 {
+  color: #1e3a8a;
+}
+
+/* Map container where Google Map renders */
+.map-container {
+  width: 100%;
+  height: 560px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  margin-top: 12px;
+  position: relative;
+}
+
+/* Controls input styling (unused #pac-input here; kept for potential future UI) */
+#pac-input {
+  background: #fff;
+  font-size: 15px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  width: 320px;
+  margin-bottom: 10px;
+}
+
+/* Directions control panel: start/end inputs + buttons */
+.directions-controls {
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.directions-controls input,
+.directions-controls button {
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Horizontal grouping for action buttons */
+.button-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* Optional badge style for route status (not used directly in current HTML) */
+.route-badge {
+  margin-left: auto;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+  background: #eef2ff;
+  color: #173a8b;
+  border: 1px solid #c7d2fe;
+}
+
+/* Optional analysis panel styling (not used directly in current HTML) */
+.analysis-panel {
+  width: 100%;
+  padding: 16px;
+  background-color: #f7f9fe;
+  border: 1px solid #e0e7ff;
+  border-radius: 10px;
+  margin-top: 14px;
+}
+
+.analysis-panel h3 {
+  color: #173a8b;
+}
+
+#riskNotes {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}

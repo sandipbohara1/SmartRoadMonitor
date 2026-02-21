@@ -1,0 +1,260 @@
+/* ============================================================
+   FILE: css/dashboard.css
+   PROJECT: Smart Road Monitor (Dashboard Styles)
+   PROGRAMMER: Sandip Bohara Chhetri
+
+   PURPOSE:
+   Styling for the Dashboard view:
+     - Layout grid for 3 main cards
+     - Card design and hover behavior
+     - Risk badge colors (low/medium/high)
+     - Filter bar styling
+     - Alerts table styling
+     - Snow prediction bars layout
+     - Responsive behavior for smaller screens
+
+============================================================ */
+
+/* ====== BASE ====== */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7fb;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====== NAVBAR ======
+   Dashboard uses the shared navbar from global.css,
+   but these styles also define the nav appearance here.
+*/
+.navbar {
+  background-color: #173a8b;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 48px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  opacity: 0.8;
+}
+
+/* ====== PAGE LAYOUT ====== */
+.page-section {
+  width: 94%;
+  max-width: 1600px;
+  margin: 30px auto;
+}
+
+.dashboard-filter-card {
+  margin-bottom: 20px;
+}
+
+/* Grid layout: Current Conditions | Trends | Alerts */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  gap: 40px;
+}
+
+/* ====== CARD ====== */
+.card {
+  background-color: #fff;
+  border-radius: 14px;
+  padding: 30px 40px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Subtle lift effect on hover */
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+  text-align: center;
+  color: #173a8b;
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.card p {
+  font-size: 15px;
+  margin: 10px 0;
+}
+
+/* ====== RISK ======
+   Colored badge based on risk class applied by dashboard.js
+*/
+#riskLevel {
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 16px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+#riskLevel.low {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+#riskLevel.medium {
+  background-color: #fff8e1;
+  color: #f9a825;
+}
+
+#riskLevel.high {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* ====== FILTER ====== */
+.filter-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-box select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* ====== ALERT TABLE ====== */
+.alert-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.alert-table th,
+.alert-table td {
+  border: 1px solid #e1e4ea;
+  padding: 12px;
+  text-align: center;
+}
+
+.alert-table th {
+  background-color: #173a8b;
+  color: white;
+}
+
+.alert-table tr:nth-child(even) {
+  background-color: #f8f9fb;
+}
+
+/* ====== COLOR BARS FOR CARDS ======
+   Visual top-border color cues per column card
+*/
+.grid-container > .card:nth-child(1) {
+  border-top: 4px solid #fbc02d;
+}
+.grid-container > .card:nth-child(2) {
+  border-top: 4px solid #1976d2;
+}
+.grid-container > .card:nth-child(3) {
+  border-top: 4px solid #d32f2f;
+}
+
+/* ====== SNOW PREDICTION ======
+   Forecast bars generated dynamically in dashboard.js
+*/
+#snowPredictionContainer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #e0e5ef;
+}
+
+.snow-forecast-bars {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* One forecast row: day | bar | icon | percent */
+.snow-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 40px 50px;
+  gap: 10px;
+  align-items: center;
+}
+
+.snow-day-name {
+  font-weight: 600;
+  color: #173a8b;
+}
+
+.snow-bar-container {
+  background: #e0e5ef;
+  border-radius: 20px;
+  height: 14px;
+  overflow: hidden;
+}
+
+/* The filled portion's width is controlled by inline style width:% */
+.snow-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2196f3, #0d47a1);
+}
+
+.snow-icon {
+  text-align: center;
+  font-size: 18px;
+}
+
+.snow-percent {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* ====== RESPONSIVE ======
+   For smaller screens: stack cards in one column
+*/
+@media (max-width: 1200px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    max-width: 700px;
+    margin: 0 auto 20px auto;
+  }
+
+  .filter-box {
+    flex-direction: column;
+  }
+
+  .filter-box select {
+    width: 100%;
+  }
+}

@@ -1,0 +1,69 @@
+/* ============================================================
+   FILE: css/global.css
+   PROJECT: Smart Road Monitor (Global Styles)
+   PROGRAMMER: Sandip Bohara Chhetri
+
+   PURPOSE:
+   Shared styles used across Dashboard, Map, and Admin pages:
+     - Body base font/background
+     - Navbar layout + active link highlight
+     - Page section visibility rules
+     - Card base styling
+     - Utility class `.hidden`
+
+============================================================ */
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f7fb;
+  margin: 0;
+  padding: 0;
+}
+
+/* Shared navigation bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a3a8a;
+  color: #fff;
+  padding: 15px 25px;
+}
+
+/* Nav links container */
+.nav-links a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Active link gets a yellow underline indicator */
+.nav-links a.active {
+  border-bottom: 3px solid #ffd200;
+}
+
+/* Default: page sections are hidden unless toggled */
+.page-section {
+  display: none;
+  padding: 40px;
+}
+
+/* When section does NOT have .hidden, it becomes visible */
+.page-section:not(.hidden) {
+  display: block;
+}
+
+/* Common card style used in multiple pages */
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Utility class: force hide elements/sections */
+.hidden {
+  display: none !important;
+}

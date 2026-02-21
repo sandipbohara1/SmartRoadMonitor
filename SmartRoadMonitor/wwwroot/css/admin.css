@@ -1,0 +1,252 @@
+/* ============================================================
+   FILE: css/admin.css
+   PROJECT: Smart Road Monitor (Admin Styles)
+   PROGRAMMER: Sandip Bohara Chhetri
+
+   PURPOSE:
+   Styling for the Admin panel:
+     - Card layout
+     - Admin action buttons
+     - Device and sensor data tables
+     - Inline edit form layout
+     - Add-device form layout
+     - Filter bar styling
+     - Basic modal overlay styling
+
+============================================================ */
+
+/* Base */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Adds spacing around admin section */
+#adminSection {
+  padding: 30px;
+}
+
+/* Card container used for admin pages */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+/* Headings */
+h2, h3, h4 {
+  color: #173a8b;
+  margin-bottom: 14px;
+}
+
+p { color: #333; }
+
+/* Admin nav buttons (View Devices / View Sensor / Add Device) */
+.admin-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.admin-actions button {
+  background: #173a8b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-actions button:hover { opacity: 0.85; }
+
+/* Tables for devices and sensor data */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.data-table th, .data-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.data-table th {
+  background: #eef2ff;
+  color: #173a8b;
+  font-weight: 600;
+}
+
+/* Action buttons inside device table rows */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.action-buttons button {
+  background: #173a8b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  min-width: 90px;
+  cursor: pointer;
+}
+
+.action-buttons .deleteBtn { background: #d9534f; }
+
+/* Inline edit row input styling */
+.editRow input {
+  width: 100%;
+  padding: 9px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+/* Grid layout used for edit/add forms */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* Inline actions under edit form (Save/Cancel) */
+.inline-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.inline-actions button {
+  background: #173a8b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  min-width: 100px;
+  cursor: pointer;
+}
+
+/* Shared cancel button styling */
+.cancelBtn { background: gray !important; }
+
+/* Add device form container */
+.form-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.07);
+}
+
+#adminContent input {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Add device button */
+#saveDeviceBtn {
+  margin-top: 6px;
+  background: #173a8b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  cursor: pointer;
+}
+
+#saveDeviceBtn:hover { opacity: 0.9; }
+
+#addMsg { margin-top: 10px; font-weight: 600; text-align: center; }
+
+/* Filter bar used for sensor data view */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.filter-container select, .filter-container button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.filter-container button {
+  background: #173a8b;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-container button:hover { opacity: 0.9; }
+
+/* Status messages shown after actions */
+.msgSuccess { color: green; font-weight: 600; text-align: center; }
+.msgError   { color: red; font-weight: 600; text-align: center; }
+
+/* ---------------------------
+   CENTERED MODAL (overlay)
+---------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9990;
+}
+
+.modal-box {
+  width: 360px;
+  max-width: 92vw;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.2);
+  padding: 22px 20px;
+  text-align: center;
+}
+
+.modal-box h3 {
+  margin: 0 0 6px 0;
+  color: #173a8b;
+}
+
+.modal-box p {
+  margin: 8px 0 16px 0;
+  color: #333;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modal-actions button {
+  background: #173a8b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  min-width: 90px;
+  cursor: pointer;
+}
+
+.modal-actions .cancelBtn {
+  background: gray;
+}
