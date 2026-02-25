@@ -193,5 +193,4 @@ Developed in collaboration with Agamdeep Singh Sandhu.
 # 👨‍💻 Author
 
 **Sandip Bohara Chhetri**  
-Computer Engineering Technologist  
-IoT | Embedded Systems | Full-Stack Development
+Computer Engineering Technologist
